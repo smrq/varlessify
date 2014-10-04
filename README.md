@@ -1,6 +1,6 @@
 # varlessify
 
-require() LESS variables into your JS
+require() LESS variables into your JS using Browserify
 
 [![NPM version](https://badge.fury.io/js/varlessify.png)](http://badge.fury.io/js/varlessify)
 [![build status](https://secure.travis-ci.org/smrq/varlessify.png)](http://travis-ci.org/smrq/varlessify)
