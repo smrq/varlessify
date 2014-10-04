@@ -1,6 +1,6 @@
 {
   "name": "varlessify",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Browserify transform to require LESS variable values into your JS",
   "main": "index.js",
   "scripts": {
