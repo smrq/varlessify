@@ -1,0 +1,35 @@
+{
+  "name": "varlessify",
+  "version": "0.0.0",
+  "description": "Browserify transform to require LESS variable values into your JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smrq/varlessify"
+  },
+  "keywords": [
+    "browserify",
+    "browserify-transform",
+    "less",
+    "css"
+  ],
+  "author": "Greg Smith",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smrq/varlessify/issues"
+  },
+  "homepage": "https://github.com/smrq/varlessify",
+  "dependencies": {
+    "less": "^1.7.5",
+    "static-module": "^1.0.0",
+    "through2": "^0.6.2"
+  },
+  "devDependencies": {
+    "browserify": "^6.0.2",
+    "chai": "^1.9.2",
+    "mocha": "^1.21.4"
+  }
+}
