@@ -48,12 +48,14 @@ module.exports = function (file, opts) {
 				stream.emit('error', err);
 				return;
 			}
-			var variable = tree.variable('@' + variableName);
+			var evalTree = tree.eval(new less.tree.evalEnv({}, [tree]));
+			var variable = evalTree.variable('@' + variableName);
 			if (variable == null) {
 				stream.emit('error', new Error('variable @' + variableName + ' is undefined'));
 				return;
 			}
-			var evalEnv = new less.tree.evalEnv({}, [tree]);
+
+			var evalEnv = new less.tree.evalEnv({}, [evalTree]);
 			var value = variable.eval(evalEnv).value.toCSS(evalEnv);
 			stream.push(JSON.stringify(value));
 			stream.push(null);

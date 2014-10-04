@@ -28,6 +28,33 @@ describe('varlessify', function () {
 			});
 	});
 
+	it('should pull top-level less variables imported from other less files', function (done) {
+		var definition = require('./import/definition.json');
+		browserify()
+			.add('./test/import/script.js')
+			.transform(varlessify, { file: './test/import/main.less' })
+			.bundle(function (err, src) {
+				if (err) { assert.ok(false, err); }
+				vm.runInNewContext(src, { console: { log: log(definition.expected) }});
+				done();
+			});
+	});
+
+	it('should pull top-level less variables imported from other less files based on the paths config', function (done) {
+		var definition = require('./paths-config/definition.json');
+		browserify()
+			.add('./test/paths-config/script.js')
+			.transform(varlessify, {
+				file: './test/paths-config/main.less',
+				paths: ['./test/paths-config/mysterious-folder', './test/paths-config/magnificent-folder']
+			})
+			.bundle(function (err, src) {
+				if (err) { assert.ok(false, err); }
+				vm.runInNewContext(src, { console: { log: log(definition.expected) }});
+				done();
+			});
+	});
+
 	it('should error if no less file is specified', function (done) {
 		browserify()
 			.add('./test/config/script.js')
