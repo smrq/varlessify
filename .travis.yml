@@ -1,3 +1,12 @@
 language: node_js
 node_js:
-  - "0.10"
+- '0.10'
+deploy:
+  provider: npm
+  email: smr.kyu@gmail.com
+  api_key:
+    secure: vtG3p72aVr7QS7SFJnV3WID5UD3pmqY2zwIgelLvlc5T/z84JJOJzvsi4oK3zjS3mQwVSRxvZLfIgVdLIcTShw0Fu3aLjcN0Vj9iLyt17/DqM44GuX4C6AFXoAa5eTTtgnwq537pc7+5IDnrd0o130uKn0NY9utqStbCTKGq4jY=
+  on:
+    tags: true
+    repo: smrq/varlessify
+    branch: master
