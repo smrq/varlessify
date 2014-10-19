@@ -59,6 +59,7 @@ module.exports = function (file, opts) {
 			var value = variable.eval(evalEnv).value.toCSS(evalEnv);
 			stream.push(JSON.stringify(value));
 			stream.push(null);
+			sm.emit('file', lessFile)
 		});
 
 		return stream;
