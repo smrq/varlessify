@@ -35,7 +35,6 @@ $ browserify main.js -t [ varlessify --file ./variables.less ] > bundle.js
 you get...
 
 ``` js
-var varless = require('varless');
 var foo = "#ffffff";
 var bar = "2";
 var baz = "4";
