@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/smrq/varlessify",
   "dependencies": {
-    "less": "^1.7.5",
+    "less": "^2.5.1",
     "static-module": "^1.0.0",
     "through2": "^0.6.2"
   },

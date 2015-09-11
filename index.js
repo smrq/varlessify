@@ -4,6 +4,12 @@ var less = require('less');
 var staticModule = require('static-module');
 var through = require('through2');
 
+var savedValue;
+less.functions.functionRegistry.add('__varlessifySaveValue', function (value) {
+	savedValue = value;
+	return value;
+});
+
 module.exports = function (file, opts) {
 	if (/\.json$/.test(file)) return through();
 	var parseCache = {};
@@ -16,18 +22,18 @@ module.exports = function (file, opts) {
 	}, {vars: vars});
 	return sm;
 
-	function parseLess(lessFile, callback) {
+	function readVariableFromFile(lessFile, variableName, cb) {
 		fs.readFile(lessFile, function (err, text) {
-			if (err) {
-				callback(err);
-				return;
-			}
-			var parser = new less.Parser({
-				paths: opts.paths,
-				filename: lessFile
+			if (err) return cb(err);
+
+			var source = '#varlessify { value: __varlessifySaveValue(@' + variableName + '); }\n' + String(text);
+			less.render(source, {
+				filename: lessFile,
+				paths: opts.paths
+			}, function (err, result) {
+				cb(err, savedValue);
 			});
-			parser.parse(String(text), callback);
-		});
+		})
 	}
 
 	function varless(lessFile, variableName) {
@@ -43,23 +49,15 @@ module.exports = function (file, opts) {
 			return;
 		}
 
-		parseLess(lessFile, function (err, tree) {
+		readVariableFromFile(lessFile, variableName, function (err, value) {
 			if (err) {
 				stream.emit('error', err);
 				return;
 			}
-			var evalTree = tree.eval(new less.tree.evalEnv({}, [tree]));
-			var variable = evalTree.variable('@' + variableName);
-			if (variable == null) {
-				stream.emit('error', new Error('variable @' + variableName + ' is undefined'));
-				return;
-			}
 
-			var evalEnv = new less.tree.evalEnv({}, [evalTree]);
-			var value = variable.eval(evalEnv).value.toCSS(evalEnv);
-			stream.push(JSON.stringify(value));
+			stream.push(JSON.stringify(value.toCSS()));
 			stream.push(null);
-			sm.emit('file', lessFile)
+			sm.emit('file', lessFile);
 		});
 
 		return stream;
@@ -75,3 +73,5 @@ module.exports = function (file, opts) {
 		}
 	}
 }
+
+module.exports.getSaved = function () { return savedValue; }
