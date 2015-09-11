@@ -35,7 +35,6 @@ $ browserify main.js -t [ varlessify --file ./variables.less ] > bundle.js
 you get...
 
 ``` js
-var varless = require('varless');
 var foo = "#ffffff";
 var bar = "2";
 var baz = "4";
@@ -45,10 +44,11 @@ console.log(foo, bar, baz);
 # how to script
 
 ``` js
-varless.get([lessFile], variable)
+varless.get(variable)
+varless.get(lessFile, variable)
 ```
 
-You can specify the less file either in your JS or as a build option.  If both are specified, the script takes precedence.
+You can specify the less file either as a parameter to `varless.get` or as a build option.  If both are specified, the parameter takes precedence.
 
 # how to browserify
 
